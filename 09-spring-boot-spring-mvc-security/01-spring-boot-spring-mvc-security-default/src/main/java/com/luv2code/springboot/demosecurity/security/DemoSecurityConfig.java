@@ -17,7 +17,7 @@ public class DemoSecurityConfig {
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-
+//
         //define query  to retrieve a user by username
         jdbcUserDetailsManager.setUsersByUsernameQuery(
                 "select user_id,pw,active from members where user_id=?");
