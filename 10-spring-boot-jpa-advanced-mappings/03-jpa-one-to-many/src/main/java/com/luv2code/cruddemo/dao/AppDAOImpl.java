@@ -80,4 +80,55 @@ public class AppDAOImpl implements AppDAO{
         List<Course> courses =query.getResultList();
         return courses;
     }
+
+    /**
+     * Join  fetch bir eager olarak tasarlanır eger bir instructorun coursu varsa join fetch methodunu cagırıyoruz
+     * */
+    @Override
+    public Instructor findInstructorByIdJoinFetch(int theId) {
+        //create query
+        TypedQuery<Instructor> query =entityManager.createQuery(
+                                                    "select i from Instructor i "
+                                                            + "JOIN FETCH i.courses "
+                                                            + "JOIN FETCH i.instructorDetail "
+                                                            + "where i.id = :data",Instructor.class);
+
+        query.setParameter("data",theId);
+
+        //execute the query
+        Instructor instructor=query.getSingleResult();
+
+        return instructor;
+    }
+
+    @Override
+    @Transactional
+    public void update(Instructor tempInstructor) {
+
+        entityManager.merge(tempInstructor);
+
+
+    }
+
+    @Override
+    @Transactional
+    public void update(Course tempCourse) {
+        entityManager.merge(tempCourse);
+    }
+
+    @Override
+    public Course findCourseById(int theId) {
+
+        return entityManager.find(Course.class,theId);
+    }
 }
+
+
+
+
+
+
+
+
+
+
